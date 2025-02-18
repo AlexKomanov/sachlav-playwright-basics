@@ -16,6 +16,7 @@ def test_type_text(page: Page):
     text_box_element.press_sequentially("New Text New Text")
     page.wait_for_timeout(1000)
     text_box_element.clear()
+    # query = page.query_selector("a") # ElementHandle - Deprecated
 
     text_to_validate = "Another Another Another"
     text_box_element.press_sequentially(text_to_validate, delay=100)
@@ -29,3 +30,8 @@ def test_type_text(page: Page):
 
     page.wait_for_timeout(1000)
 
+
+# Example
+#     page.locator('').fill('')
+#     page.locator('').press_sequentially('')
+#     page.locator('').type('') # deprecated
