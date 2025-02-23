@@ -1,23 +1,25 @@
 from playwright.sync_api import Page, expect
 import pytest
-from dotenv import load_dotenv
-import os
-
-load_dotenv()  # take environment variables from .env.
+from test_data import constants as const
 
 test_data = [
-    (os.getenv("STANDARD_USER"), os.getenv("SECRET_SAUCE")),
-    (os.getenv("PERFORMANCE_GLITCH_USER"), os.getenv("SECRET_SAUCE")),
-    (os.getenv("ERROR_USER"), os.getenv("SECRET_SAUCE")),
-    (os.getenv("PROBLEM_USER"), os.getenv("SECRET_SAUCE")),
-    (os.getenv("VISUAL_USER"), os.getenv("SECRET_SAUCE")),
+    (const.STANDARD_USER, const.SECRET_SAUCE),
+    (const.PERFORMANCE_GLITCH_USER, const.SECRET_SAUCE),
+    (const.ERROR_USER, const.SECRET_SAUCE),
+    (const.PROBLEM_USER, const.SECRET_SAUCE),
+    (const.VISUAL_USER, const.SECRET_SAUCE),
 ]
 
+@pytest.mark.login
+@pytest.mark.positive
 @pytest.mark.parametrize("username, password", test_data)
-def test_login_with_success(page: Page, username: str, password: str):
-    page.goto("https://www.saucedemo.com/")
-    page.locator("[data-test=\"username\"]").fill(username)
-    page.locator("[data-test=\"password\"]").fill(password)
-    page.locator("[data-test=\"login-button\"]").click()
-    expect(page).to_have_url('https://www.saucedemo.com/inventory.html')
-    expect(page.locator("[data-test=\"title\"]")).to_contain_text("Products")
+def test_login_with_success(page: Page, login_page, username: str, password: str):
+    """Test successful login with different valid user credentials"""
+    # Navigate to the application
+    page.goto(const.BASE_URL)
+    
+    # Login with credentials
+    login_page.login_to_system(username, password)
+    
+    # Verify successful login
+    expect(page).to_have_url(const.INVENTORY_URL)
