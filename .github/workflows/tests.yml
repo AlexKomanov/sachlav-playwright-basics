@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Checkout branch
       uses: actions/checkout@v4.2.2
-    - name: Set up Python 3.10
+    - name: Set up Python 3.13
       uses: actions/setup-python@v5.4.0
       with:
         python-version: "3.13"
@@ -29,3 +29,12 @@ jobs:
       run: python -m playwright install --with-deps
     - name: Test with Pytest & Playwright
       run: pytest
+      env:
+        STANDARD_USER: ${{ secrets.STANDARD_USER }}
+        LOCKED_OUT_USER: ${{ secrets.LOCKED_OUT_USER }}
+        PROBLEM_USER: ${{ secrets.PROBLEM_USER }}
+        PERFORMANCE_GLITCH_USER: ${{ secrets.PERFORMANCE_GLITCH_USER }}
+        ERROR_USER: ${{ secrets.ERROR_USER }}
+        VISUAL_USER: ${{ secrets.VISUAL_USER }}
+        SECRET_SAUCE: ${{ secrets.SECRET_SAUCE }}
+
