@@ -5,8 +5,14 @@ import allure
 
 @pytest.mark.sanity
 @pytest.mark.e2e
+@allure.severity(severity_level=allure.severity_level.CRITICAL)
+@allure.title("End 2 End Scenario")
 def test_end_2_end_scenario(page: Page, login_page, products_page, cart_page, checkout_page, checkout_completed_page):
-    """Test complete end-to-end purchase flow from login to checkout"""
+    allure.description("Test complete end-to-end purchase flow from login to checkout")
+    allure.dynamic.epic("Web interface 1")
+    allure.dynamic.feature("Essential features 1")
+    allure.dynamic.story("End 2 End")
+
     # Navigate to the application
     with allure.step(f"Navigating to page with url: '{const.BASE_URL}'"):
         page.goto(const.BASE_URL)
