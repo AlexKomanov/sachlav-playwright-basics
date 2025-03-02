@@ -1,4 +1,5 @@
 from playwright.sync_api import Page, expect
+import allure
 
 class LoginPage:
 
@@ -10,13 +11,16 @@ class LoginPage:
 
 
     def type_username(self, username: str):
-        self.__username_textfield.fill(username)
+        with allure.step(f"Typing username '{username}'"):
+            self.__username_textfield.fill(username)
 
     def type_password(self, password: str):
-        self.__password_textfield.fill(password)
+        with allure.step(f"Typing password \'{len(password)*'*'}\'"):
+            self.__password_textfield.fill(password)
 
     def click_login_button(self):
-        self.__login_button.click()
+        with allure.step("Clicking login button"):
+            self.__login_button.click()
 
     def login_to_system(self, username: str, password: str):
         self.type_username(username)
@@ -24,6 +28,7 @@ class LoginPage:
         self.click_login_button()
 
     def validate_login_error_message(self, error_message: str):
-        expect(self.__error_message_element).to_contain_text(error_message)
+        with allure.step(f"Validating that error message is '{error_message}'"):
+            expect(self.__error_message_element).to_contain_text(error_message)
 
 
